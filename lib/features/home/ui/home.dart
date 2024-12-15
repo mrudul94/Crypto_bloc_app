@@ -1,8 +1,10 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cryptoapp/features/home/bloc/home_bloc.dart';
+import 'package:cryptoapp/features/lossingCrypto/lossing_crypto.dart';
+import 'package:cryptoapp/features/popular/bloc/popular_bloc.dart';
+import 'package:cryptoapp/features/topGainers/top_gainers.dart';
+import 'package:cryptoapp/features/widgets/home_header.dart';
+import 'package:cryptoapp/features/popular/popular_crypto.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,105 +15,70 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeBloc homeBloc = HomeBloc();
+  final PopularBloc popularBloc = PopularBloc();
 
   @override
   void initState() {
     super.initState();
+    // Dispatch events to fetch data on screen load
     homeBloc.add(HomepageInitialFetchEvent());
+    popularBloc.add(PopularCryptoFetchEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: false,
-      //   backgroundColor: const Color.fromARGB(151, 5, 161, 21),
-      // ),
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
-        child: BlocConsumer<HomeBloc, HomeState>(
-          bloc: homeBloc,
-          listenWhen: (previous, current) => current is HomeActionState,
-          buildWhen: (previous, current) => current is! HomeActionState,
-          listener: (context, state) {
-            // Handle side effects here if needed, such as snackbars or navigation
-          },
-          builder: (context, state) {
-            if (state is CryptoFetchSuccessfullState) {
-              final successfullState = state;
-              final cryptoDisplay = successfullState.cryptos.take(5).toList();
-              
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: double.infinity, // Full width container
-                    height: 300,
-                    decoration: const BoxDecoration(
-                      color: Color.fromARGB(150, 3, 99, 12),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30),
-                      ),
-                    ),
-                    child: CarouselSlider(
-                      items: cryptoDisplay.map((crypto) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Column(
-                              children: [
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Image.network(
-                                  crypto.image,
-                                  width: 100,
-                                ),
-                                Text(
-                                  crypto.name,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Text(
-                                  "\$${crypto.currentPrice}",
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Text(
-                                  "${crypto.priceChangePercentage24H > 0 ? '+' : ''}${crypto.priceChangePercentage24H}%",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: crypto.priceChangePercentage24H > 0
-                                        ? Colors.green
-                                        : Colors.red,
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      }).toList(),
-                      options: CarouselOptions(
-                        autoPlay: true,
-                        aspectRatio: 16 / 9,
-                        enlargeCenterPage: true,
-                        viewportFraction: 1.0,
-                      ),
-                    ),
-                  ),
-                 
-                ],
-              );
-            } else {
-              return const SizedBox(); // Default empty widget if no state matches
-            }
-          },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            customHeader(context, homeBloc),
+            const SizedBox(
+              height: 20,
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Text(
+                'Popular Cryptos',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 20),
+              ),
+            ),
+            const SizedBox(
+              height: 350,
+              child: PopularCryptoWidget(),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Text(
+                'Top Gainers',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 20),
+              ),
+            ),
+               const TopGainers(),
+            
+            const Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Text(
+                'Top Losers',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 20),
+              ),
+            ),
+            const SizedBox(
+              height: 350,
+              width: double.infinity,
+              child: LossingCryptoWidget(),
+            )
+          ],
         ),
       ),
     );

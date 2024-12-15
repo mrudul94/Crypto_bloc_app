@@ -1,8 +1,6 @@
-// ignore_for_file: constant_identifier_names
-
 import 'dart:convert';
 
-class CryptoModel {
+class TopGainCryptoModel {
     String id;
     String symbol;
     String name;
@@ -30,7 +28,7 @@ class CryptoModel {
     Roi? roi;
     DateTime lastUpdated;
 
-    CryptoModel({
+    TopGainCryptoModel({
         required this.id,
         required this.symbol,
         required this.name,
@@ -59,11 +57,11 @@ class CryptoModel {
         required this.lastUpdated,
     });
 
-    factory CryptoModel.fromRawJson(String str) => CryptoModel.fromJson(json.decode(str));
+    factory TopGainCryptoModel.fromRawJson(String str) => TopGainCryptoModel.fromJson(json.decode(str));
 
     String toRawJson() => json.encode(toJson());
 
-    factory CryptoModel.fromJson(Map<String, dynamic> json) => CryptoModel(
+    factory TopGainCryptoModel.fromJson(Map<String, dynamic> json) => TopGainCryptoModel(
         id: json["id"],
         symbol: json["symbol"],
         name: json["name"],

@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:cryptoapp/features/home/model/crypto_model.dart';
+import 'package:cryptoapp/features/home/repos/fetch_api_funtions.dart';
+// ignore: depend_on_referenced_packages
 import 'package:meta/meta.dart';
-import 'package:http/http.dart' as http;
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -18,29 +17,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     HomepageInitialFetchEvent event,
     Emitter<HomeState> emit,
   ) async {
-    var client = http.Client();
-    List<CryptoModel> cryptos = [];
-    try {
-      var response = await client.get(
-        Uri.https('api.coingecko.com', '/api/v3/coins/markets', {'vs_currency': 'usd'}),
-      );
+    List<CryptoModel> cryptos = await fetchCryptoData();
 
-      if (response.statusCode == 200) {
-        List result = jsonDecode(response.body);
-        for (var item in result) {
-          CryptoModel crypto = CryptoModel.fromJson(item);
-          cryptos.add(crypto);
-        }
-        
-        emit(CryptoFetchSuccessfullState(cryptos: cryptos));
-      } else {
-        log('Failed to fetch data: ${response.statusCode}');
-      }
-    } catch (e) {
-      log('Error: ${e.toString()}');
-    } finally {
-      client.close();
+    if (cryptos.isNotEmpty) {
+      emit(CryptoFetchSuccessfullState(cryptos: cryptos));
+    } else {
+      emit(CryptoFetchFailureState(errorMessage: "Failed to load crypto data"));
     }
   }
-}
 
+ 
+
+   
+}
