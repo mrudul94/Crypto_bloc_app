@@ -1,6 +1,5 @@
 import 'package:cryptoapp/features/home/bloc/home_bloc.dart';
 import 'package:cryptoapp/features/lossingCrypto/lossing_crypto.dart';
-import 'package:cryptoapp/features/popular/bloc/popular_bloc.dart';
 import 'package:cryptoapp/features/topGainers/top_gainers.dart';
 import 'package:cryptoapp/features/widgets/home_header.dart';
 import 'package:cryptoapp/features/popular/popular_crypto.dart';
@@ -15,19 +14,18 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeBloc homeBloc = HomeBloc();
-  final PopularBloc popularBloc = PopularBloc();
 
   @override
   void initState() {
     super.initState();
     // Dispatch events to fetch data on screen load
     homeBloc.add(HomepageInitialFetchEvent());
-    popularBloc.add(PopularCryptoFetchEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Column(
@@ -61,7 +59,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontSize: 20),
               ),
             ),
-               const TopGainers(),
+               const SizedBox(height: 350,
+                child: TopGainers()),
             
             const Padding(
               padding: EdgeInsets.only(left: 10),

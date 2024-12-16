@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cryptoapp/features/home/ui/home.dart';
 import 'package:cryptoapp/features/widgets/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';

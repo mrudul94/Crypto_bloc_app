@@ -1,3 +1,4 @@
+import 'package:cryptoapp/features/watchlist/wish_list.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptoapp/features/home/ui/home.dart';
 
@@ -28,7 +29,7 @@ class BottomNavBar extends StatelessWidget {
         bottomSheet: const TabBarView(
           children: [
             
-            Center(child: Text("Wishlist Screen")), 
+            WatchlistScreen(), 
             HomeScreen(),
             Center(child: Text("Search Screen")),
           ],

@@ -19,7 +19,7 @@ class PopularBloc extends Bloc<PopularEvent, PopularState> {
       PopularCryptoFetchEvent event, Emitter<PopularState> emit) async {
     try {
       emit(PopularInitial()); // Optional: Emit loading state if needed
-      List<PopularCryptoModel> popularCrypto = await fetchPopulatCryptoData();
+      List<PopularCryptoModel> popularCrypto = await fetchPopularCryptoData();
 
       if (popularCrypto.isNotEmpty) {
         emit(PopularCryptoFetchSuccessfullState(popularcryptos: popularCrypto));

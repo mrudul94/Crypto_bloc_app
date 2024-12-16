@@ -1,7 +1,8 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:cryptoapp/features/home/model/crypto_model.dart';
 import 'package:cryptoapp/features/home/model/top_gain_model.dart';
 import 'package:cryptoapp/features/home/repos/fetch_api_funtions.dart';
 import 'package:meta/meta.dart';

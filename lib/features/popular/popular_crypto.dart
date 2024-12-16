@@ -29,7 +29,7 @@ class PopularCryptoWidget extends StatelessWidget {
               return Card(color: const Color.fromARGB(146, 14, 19, 71), // Add card background color
                 elevation: 4,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),side: BorderSide(color: Colors.white,width: 0) // Rounded corners
+                  borderRadius: BorderRadius.circular(12),side: const BorderSide(color: Colors.white,width: 0) // Rounded corners
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -55,8 +55,8 @@ class PopularCryptoWidget extends StatelessWidget {
             },
           );
         } else if (state is PopularCryptoFetchFailureState) {
-          return Center(
-            child: Text('Error: ${state.errorMessage}'),
+          return const Center(
+            child:  CircularProgressIndicator(),
           );
         } else {
           return const Center(child: Text('No data available'));
